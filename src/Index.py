@@ -2,11 +2,18 @@
 import requests, json
 import re
 import validators
+from urllib.parse import urlparse, parse_qsl
 
 def response(message, status_code):
+
+    url = urlparse(json.dumps(message))
+    qs =  str(dict(parse_qsl(url.query)))
+    body = url.path[1:] + '",'
+    full = '{' + body + ' "queryStrings" : [' + qs + ']}'
+
     return {
         'statusCode': status_code,
-        'body': json.dumps(message),
+        'body': full,
         'headers': {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
@@ -25,7 +32,7 @@ def url_handler(event, context):
         #print("Log stream name:", context.log_stream_name)
         #print("Log group name:",  context.log_group_name)
         #print("Request ID:",context.aws_request_id)
-        #print("Mem. limits(MB):", context.memory_limit_in_mb)        
+        #print("Mem. limits(MB):", context.memory_limit_in_mb)
         #url1 = event["queryStringParameters"]["url1"]
         if 'url' in event:
             url = event["url"]
