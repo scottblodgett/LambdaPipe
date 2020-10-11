@@ -5,7 +5,7 @@ phases:
    python: 3.7
  build: 
   commands:
-   - pip install requests
+   - pip install requests -t ./
    - sam build
    - export BUCKET=dsb-test-pipeline-output-bucket
    - sam package --s3-bucket $BUCKET --output-template-file outputtemplate.yml
