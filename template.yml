@@ -7,5 +7,5 @@ Resources:
   Properties:
    Handler: Index.lambda_handler
    Runtime: python3.7
-   FunctionName: SamplePython
+   FunctionName: URL
    CodeUri: ./src #Directory the source file is

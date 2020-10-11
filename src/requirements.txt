@@ -1,2 +1,4 @@
-numpy
-pandass
+requests
+json
+re
+validators
