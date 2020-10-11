@@ -8,9 +8,9 @@ import ast
 def response(message, status_code):
 
     url = urlparse(json.dumps(message))
-    qs =  str(dict(parse_qsl(url.query)))
+    qs =  str(json.dumps(dict(parse_qsl(url.query))))
     body = ast.literal_eval(json.dumps(url.path[1:] + '"'))
-    full = '{' + body + ', '"'queryStrings'"' : [' + qs + ']}'
+    full = '{' + body + ', "queryStrings" : [' + qs + ']}'
 
     return {
         'statusCode': status_code,
