@@ -3,13 +3,14 @@ import requests, json
 import re
 import validators
 from urllib.parse import urlparse, parse_qsl
+import ast
 
 def response(message, status_code):
 
     url = urlparse(json.dumps(message))
     qs =  str(dict(parse_qsl(url.query)))
-    body = url.path[1:] + '",'
-    full = '{' + body + ' "queryStrings" : [' + qs + ']}'
+    body = ast.literal_eval(json.dumps(url.path[1:] + '"'))
+    full = '{' + body + ', '"'queryStrings'"' : [' + qs + ']}'
 
     return {
         'statusCode': status_code,
