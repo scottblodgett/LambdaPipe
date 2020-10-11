@@ -5,7 +5,7 @@ Resources:
  SampleFunction:
   Type: AWS::Serverless::Function
   Properties:
-   Handler: Index.lambda_handler
+   Handler: Index.url_handler
    Runtime: python3.7
    FunctionName: URL
    CodeUri: ./src #Directory the source file is
