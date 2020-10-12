@@ -3,23 +3,24 @@ import requests, json
 import re
 import validators
 from urllib.parse import urlparse, parse_qsl
-import ast
 
-def response(message, status_code):
+def response(msg, status_code):
 
-    url = urlparse(json.dumps(message))
-    qs =  str(json.dumps(dict(parse_qsl(url.query))))
-    body = ast.literal_eval(json.dumps(url.path[1:] + '"'))
-    full = '{' + body + ', "queryStrings" : [' + qs + ']}'
+    url = urlparse(msg["message"])
 
-    return {
-        'statusCode': status_code,
-        'body': full,
-        'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-            },
-        }
+    headers = {}
+    headers["Content-Type"] = "application/json"
+    headers["Access-Control-Allow-Origin"] = "*"
+
+    data = {}
+    data["url"] = url.scheme + "//" + url.path[0:]
+    data["statusCode"] = status_code
+    data["qs"] = dict(parse_qsl(url.query))
+    data["headers"] = headers
+
+    #print(data)
+    return (json.dumps(data))
+
 
 def formaturl(url):
     if not re.match('(?:http|ftp|https)://', url):
