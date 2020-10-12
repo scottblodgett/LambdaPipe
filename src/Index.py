@@ -21,7 +21,6 @@ def response(msg, status_code):
     #print(data)
     return (json.dumps(data))
 
-
 def formaturl(url):
     if not re.match('(?:http|ftp|https)://', url):
         return 'http://{}'.format(url)
@@ -39,19 +38,20 @@ def url_handler(event, context):
         if 'url' in event:
             url = event["url"]
         else:
-            return response({'message': 'No URL specified' }, 400)
+            return json.loads(response({'message': 'No URL specified' }, 400))
             
         #print(url)    
         if len(url) > 0:
             url = formaturl(url)
         else:
-            return response({'message': 'No URL specified' }, 400)
+            return json.loads(response({'message': 'No URL specified' }, 400))
             
         if not validators.url(url):
-            return response({'message': 'Invalid url' }, 400)
+            return json.loads(response({'message': 'Invalid url' }, 400))
 
         r = requests.get(url, allow_redirects=False)
         output = (r.headers['Location'])
-        return response({'message': output }, 200)
+        output = response({'message':  output }, 200)
+        return json.loads(output) # needed to get around escaping issues
     except Exception as e:
-        return response({'message': e.message}, 400)
+        return json.loads(response({'message': e.message}, 400))
