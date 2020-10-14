@@ -2,11 +2,24 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Python file including external library
 Resources:
- #SampleFunction:
- xxx:
+ dsbFunction:
   Type: AWS::Serverless::Function
   Properties:
    Handler: Index.url_handler
    Runtime: python3.7
    FunctionName: URL
    CodeUri: ./src #Directory the source file is
+   
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  HelloWorldApi:
+    Description: "API Gateway endpoint URL for Prod stage for dsb function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/dsb/"
+  dsbFunction:
+    Description: "dsb Lambda Function ARN"
+    Value: !GetAtt dsbFunction.Arn
+  dsbFunctionIamRole:
+    Description: "Implicit IAM Role created for dsbfunction"
+    Value: !GetAtt dsbFunctionFunctionRole.Arn
