@@ -13,14 +13,10 @@ Resources:
     dsb:
       Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
       Properties:
-        Path: /dsb/url
+        Path: /dsb/{p1}
         Method: GET
-        request:
-          parameters:
-            querystrings:
-              foo: true
-            paths:
-              bar: true
+
+
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
