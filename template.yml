@@ -28,8 +28,6 @@ Outputs:
   dsbApi:
     Description: "API Gateway endpoint URL for Prod stage for dsb function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/dsb/"
-    Export:
-      Name: ApiUrl
   dsbFunction:
     Description: "dsb Lambda Function ARN"
     Value: !GetAtt dsbFunction.Arn
