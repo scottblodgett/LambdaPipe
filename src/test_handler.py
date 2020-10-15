@@ -14,8 +14,8 @@ class TestHandlerCase(unittest.TestCase):
         result = index.url_handler(event, None)
         #result = json.loads(index.url_handler(event, None))
         #print(result["statusCode"])
-        #print(result)
         #result = json.dumps(result)
+        print(json.dumps(result))
 
         self.assertEqual(result['statusCode'], 200)
         self.assertEqual(result['headers']['Content-Type'], 'application/json')

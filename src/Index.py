@@ -11,12 +11,19 @@ def response(msg, status_code):
     headers = {}
     headers["Content-Type"] = "application/json"
     headers["Access-Control-Allow-Origin"] = "*"
+    multiValueHeaders = {}
+
+    body = {}
+    body["url"] = url.scheme + "//" + url.path[0:]
+    body["qs"] = dict(parse_qsl(url.query))
 
     data = {}
-    data["url"] = url.scheme + "//" + url.path[0:]
+
+    data["isBase64Encoded"] = False
     data["statusCode"] = status_code
-    data["qs"] = dict(parse_qsl(url.query))
     data["headers"] = headers
+    data["multiValueHeaders"] = multiValueHeaders
+    data["body"] = body
 
     #print(data)
     return (json.dumps(data))
