@@ -6,16 +6,15 @@ Resources:
   Type: AWS::Serverless::Function
   Properties:
    Handler: Index.url_handler
-   Runtime: python3.6
+   Runtime: python3.7
    FunctionName: URL
    CodeUri: ./src #Directory the source file is
    Events:
     dsb:
       Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
       Properties:
-        Path: /dsb
+        Path: /dsb/{proxy+}
         Method: GET
-
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
