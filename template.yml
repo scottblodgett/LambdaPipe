@@ -6,14 +6,14 @@ Resources:
   Type: AWS::Serverless::Function
   Properties:
    Handler: Index.url_handler
-   Runtime: python3.7
+   Runtime: python3.6
    FunctionName: URL
    CodeUri: ./src #Directory the source file is
    Events:
     dsb:
       Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
       Properties:
-        Path: /dsb/{p1}
+        Path: /dsb
         Method: GET
 
 

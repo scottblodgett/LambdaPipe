@@ -33,19 +33,22 @@ def formaturl(url):
         return 'http://{}'.format(url)
     return url
 
-print('Loading function')
 
 def url_handler(event, context):
+    print('starting now')
+    
     try:
         #print("Log stream name:", context.log_stream_name)
         #print("Log group name:",  context.log_group_name)
         #print("Request ID:",context.aws_request_id)
         #print("Mem. limits(MB):", context.memory_limit_in_mb)
         #url1 = event["queryStringParameters"]["url1"]
-        if 'url' in event:
-            url = event["url"]
-        else:
-            return json.loads(response({'message': 'No URL specified' }, 400))
+        
+        url = event["queryStringParameters"]["url"]
+        #if 'url' in event:
+        #    url = event["url"]
+        #else:
+        #    return json.loads(response({'message': 'No URL specified' }, 400))
             
         #print(url)    
         if len(url) > 0:
