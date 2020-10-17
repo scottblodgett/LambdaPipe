@@ -23,7 +23,6 @@ def response(msg, status_code):
         "body": json.dumps(body)
     }
 
-
 def formaturl(url):
     if not re.match('(?:http|ftp|https)://', url):
         return 'http://{}'.format(url)
@@ -42,7 +41,7 @@ def url_handler(event, context):
 
         qs = event.get('queryStringParameters', None)
         #url = "https://click.mlsend.com/link/c/YT0xNTI5MjIwMjA4NTA4NTQwNDQ3JmM9azFqNyZlPTE5MjgmYj00MjgwMzE1ODAmZD1oNnMzcjNx.uV-jk5YH6UIg-x6bcetpj_Kp5u0vn38QNBHbZns5PLQ"
-        if qs is not None and (qs.get('url', None) is not None):        
+        if qs is not None and (qs.get('url', None) is not None):
             url = event["queryStringParameters"]["url"]
         else:
             output = response({'message':  'No URL specified' }, 400)
@@ -60,9 +59,6 @@ def url_handler(event, context):
         output = (r.headers['Location'])
         output = response({'message':  output }, 200)
         return (output)
-        
-        #return json.loads(output) # needed to get around escaping issues
 
-        
     except Exception as e:
-        return json.loads(response({'message': e.message}, 400))
+        json.loads(response({'message': e.message}, 400))

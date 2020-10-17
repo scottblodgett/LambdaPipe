@@ -40,7 +40,7 @@ class TestHandlerCase(unittest.TestCase):
         result = Index.url_handler(qs, None)
         self.assertEqual(result['statusCode'], 400)
         self.assertEqual(result['headers']['Content-Type'], 'application/json')
-        
+         
         print("Unit test complete.")
 
 if __name__ == '__main__':
