@@ -1,0 +1,127 @@
+{
+    "pipeline": {
+        "roleArn": "arn:aws:iam::294402561156:role/service-role/AWSCodePipelineServiceRole-us-east-2-dsbCodePipe2", 
+        "stages": [
+            {
+                "name": "Source", 
+                "actions": [
+                    {
+                        "inputArtifacts": [], 
+                        "name": "Source", 
+                        "region": "us-east-2", 
+                        "actionTypeId": {
+                            "category": "Source", 
+                            "owner": "AWS", 
+                            "version": "1", 
+                            "provider": "CodeStarSourceConnection"
+                        }, 
+                        "outputArtifacts": [
+                            {
+                                "name": "SourceArtifact"
+                            }
+                        ], 
+                        "configuration": {
+                            "ConnectionArn": "arn:aws:codestar-connections:us-east-2:294402561156:connection/76b10965-c19a-4ccf-973f-fe2cf0be843c", 
+                            "FullRepositoryId": "scottblodgett/TestRepo", 
+                            "BranchName": "main", 
+                            "OutputArtifactFormat": "CODE_ZIP"
+                        }, 
+                        "runOrder": 1
+                    }
+                ]
+            }, 
+            {
+                "name": "Build", 
+                "actions": [
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "SourceArtifact"
+                            }
+                        ], 
+                        "name": "Build", 
+                        "region": "us-east-2", 
+                        "actionTypeId": {
+                            "category": "Build", 
+                            "owner": "AWS", 
+                            "version": "1", 
+                            "provider": "CodeBuild"
+                        }, 
+                        "outputArtifacts": [
+                            {
+                                "name": "BuildArtifact"
+                            }
+                        ], 
+                        "configuration": {
+                            "ProjectName": "dsbCodeBuild2"
+                        }, 
+                        "runOrder": 1
+                    }
+                ]
+            }, 
+            {
+                "name": "Deploy", 
+                "actions": [
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "BuildArtifact"
+                            }
+                        ], 
+                        "name": "Deploy", 
+                        "region": "us-east-2", 
+                        "actionTypeId": {
+                            "category": "Deploy", 
+                            "owner": "AWS", 
+                            "version": "1", 
+                            "provider": "CloudFormation"
+                        }, 
+                        "outputArtifacts": [], 
+                        "configuration": {
+                            "ActionMode": "CHANGE_SET_REPLACE", 
+                            "ChangeSetName": "dsb-testpipeline-changeset", 
+                            "RoleArn": "arn:aws:iam::294402561156:role/dsb_codepipe_service_role", 
+                            "Capabilities": "CAPABILITY_IAM,CAPABILITY_AUTO_EXPAND", 
+                            "StackName": "dsb-testpipeline-stack", 
+                            "TemplatePath": "BuildArtifact::outputtemplate.yml"
+                        }, 
+                        "runOrder": 1
+                    }, 
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "BuildArtifact"
+                            }
+                        ], 
+                        "name": "PutToLambda", 
+                        "region": "us-east-2", 
+                        "actionTypeId": {
+                            "category": "Deploy", 
+                            "owner": "AWS", 
+                            "version": "1", 
+                            "provider": "CloudFormation"
+                        }, 
+                        "outputArtifacts": [], 
+                        "configuration": {
+                            "StackName": "dsb-testpipeline-stack", 
+                            "ActionMode": "CHANGE_SET_EXECUTE", 
+                            "ChangeSetName": "dsb-testpipeline-changeset"
+                        }, 
+                        "runOrder": 2
+                    }
+                ]
+            }
+        ], 
+        "artifactStore": {
+            "type": "S3", 
+            "location": "codepipeline-us-east-2-928828511755"
+        }, 
+        "name": "dsbCodePipe2", 
+        "version": 3
+    }, 
+    "metadata": {
+        "pipelineArn": "arn:aws:codepipeline:us-east-2:294402561156:dsbCodePipe2", 
+        "updated": 1601857385.062, 
+        "created": 1601856749.742
+    }
+}
