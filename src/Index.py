@@ -13,7 +13,7 @@ def response(msg, status_code):
     headers["Access-Control-Allow-Origin"] = "*"
 
     body = {}
-    body["url"] = url.scheme + "//" + url.path[0:]
+    body["url"] = url.scheme + "://" + url.netloc + "/"+ url.path
     body["qs"] = dict(parse_qsl(url.query))
     
     return {

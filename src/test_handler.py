@@ -21,6 +21,13 @@ class TestHandlerCase(unittest.TestCase):
         self.assertEqual(result['statusCode'], 200)
         self.assertEqual(result['headers']['Content-Type'], 'application/json')
 
+        url = { "url": "https://click.convertkit-mail4.com/xmud9q4qrws6hkm6q7cg/e0hph7hnxx2g60c8/aHR0cHM6Ly9mcy5ibG9nLzIwMjAvMTAvd2h5LXJlYWQv" }
+        qs = { "queryStringParameters" : url }
+        result = Index.url_handler(qs, None)
+        #print(result)
+        self.assertEqual(result['statusCode'], 200)
+        self.assertEqual(result['headers']['Content-Type'], 'application/json')
+
         url = { "url": "www.yahoo.com" }
         qs = { "queryStringParameters" : url }
         result = Index.url_handler(qs, None)
