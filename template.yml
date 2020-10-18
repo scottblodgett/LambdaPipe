@@ -10,6 +10,11 @@ Resources:
    FunctionName: URL
    CodeUri: ./src #Directory the source file is
    Events:
+    RootEndpoint:
+      Type: Api
+      Properties:
+        Path: /dsb
+        Method: any
     dsb:
       Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
       Properties:
