@@ -3,6 +3,7 @@ import requests, json
 import re
 import validators
 from urllib.parse import urlparse, parse_qsl
+import boto3
 
 def response(msg, status_code):
 
@@ -28,6 +29,8 @@ def formaturl(url):
         return 'http://{}'.format(url)
     return url
 
+# Define the client to interact with AWS Lambda
+client = boto3.client('lambda')
 
 def url_handler(event, context):
     #print('starting now')
@@ -58,7 +61,25 @@ def url_handler(event, context):
         r = requests.get(url, allow_redirects=False)
         output = (r.headers['Location'])
         output = response({'message':  output }, 200)
+
+        # Define the input parameters that will be passed
+        # on to the child function
+        inputParams = {
+            "topic": "arn:aws:sns:us-east-2:294402561156:snsFromLambda",
+            "subject": "This is the subject of the message.",
+            "message": str(output)
+        }
+
+        child = client.invoke(
+            FunctionName = 'arn:aws:lambda:us-east-2:294402561156:function:dsbPublishtoSNS',
+            InvocationType = 'RequestResponse',
+            Payload = json.dumps(inputParams)
+        )
+     
+        print(json.load(child['Payload']))
+        print('\n')
+
         return (output)
 
     except Exception as e:
-        json.loads(response({'message': e.message}, 400))
+        return response({'message': e}, 400)

@@ -7,6 +7,7 @@ Resources:
   Properties:
    Handler: Index.url_handler
    Runtime: python3.7
+   Role: arn:aws:iam::294402561156:role/dsb_InvokeOtherLambdaRole
    FunctionName: URL
    CodeUri: ./src #Directory the source file is
    Events:
