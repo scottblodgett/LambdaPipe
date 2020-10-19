@@ -7,6 +7,8 @@ import boto3
 
 def response(msg, status_code):
 
+    print(msg)
+
     url = urlparse(msg["message"])
 
     headers = {}
@@ -59,7 +61,13 @@ def url_handler(event, context):
             return response({'message':  'Bad Url' }, 400)
 
         r = requests.get(url, allow_redirects=False)
-        output = (r.headers['Location'])
+
+        if (r.headers.get('Location', None) is None):
+            output = url
+        else:
+            print('there')
+            output = (r.headers['Location']) #not guaranteed to have Location
+            
         output = response({'message':  output }, 200)
 
         # Define the input parameters that will be passed
