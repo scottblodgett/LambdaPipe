@@ -32,6 +32,3 @@ Outputs:
   dsbFunction:
     Description: "dsb Lambda Function ARN"
     Value: !GetAtt dsbFunction.Arn
-  dsbFunctionIamRole:
-    Description: "Implicit IAM Role created for dsbfunction"
-    Value: !GetAtt dsbFunctionRole.Arn
