@@ -24,9 +24,11 @@ Resources:
   libs:
    Type: AWS::Serverless::LayerVersion
    Properties:
-    LayerName: blank-python-lib
-    Description: Dependencies for the blank-python sample app.
+    LayerName: dsb-python-lib
+    Description: Dependencies for the dsb sample app.
     ContentUri: package/.
+      CompatibleRuntimes:
+        - python3.7
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
