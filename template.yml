@@ -28,7 +28,7 @@ Resources:
    Properties:
     LayerName: dsb-python-lib
     Description: Dependencies for the dsb sample app.
-    ContentUri: package/
+    ContentUri: package/.
     CompatibleRuntimes:
       - python3.7
 
