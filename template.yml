@@ -10,6 +10,8 @@ Resources:
    Role: arn:aws:iam::294402561156:role/dsb_InvokeOtherLambdaRole
    FunctionName: URL
    CodeUri: ./src #Directory the source file is
+   Layers:
+    - !Ref libs
    Events:
     RootEndpoint:
       Type: Api
@@ -21,12 +23,12 @@ Resources:
       Properties:
         Path: /dsb/{proxy+}
         Method: GET
-  libs:
+ libs:
    Type: AWS::Serverless::LayerVersion
    Properties:
     LayerName: dsb-python-lib
     Description: Dependencies for the dsb sample app.
-    ContentUri: package/.
+    ContentUri: package/
     CompatibleRuntimes:
       - python3.7
 
