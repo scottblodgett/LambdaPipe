@@ -1,36 +1,36 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: Python file including external library
+
 Resources:
- dsbFunction:
-  Type: AWS::Serverless::Function
-  Properties:
-   Handler: Index.url_handler
-   Runtime: python3.7
-   Role: arn:aws:iam::294402561156:role/dsb_InvokeOtherLambdaRole
-   FunctionName: URL
-   CodeUri: ./src #Directory the source file is
-   Layers:
-    - !Ref dsblibs
-   Events:
-    RootEndpoint:
-      Type: Api
-      Properties:
-        Path: /dsb
-        Method: any
-    dsb:
-      Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-      Properties:
-        Path: /dsb/{proxy+}
-        Method: GET
- dsblibs:
-   Type: AWS::Serverless::LayerVersion
-   Properties:
-    LayerName: dsb-python-lib
-    Description: Dependencies for the dsb sample app.
-    ContentUri: ./package
-    CompatibleRuntimes:
-      - python3.7
+  dsbFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: Index.url_handler
+      Runtime: python3.7
+      Role: arn:aws:iam::294402561156:role/dsb_InvokeOtherLambdaRole
+      FunctionName: URL
+      CodeUri: src/
+      Layers:
+        - !Ref dsblibs
+      Events:
+        RootEndpoint:
+          Type: Api
+          Properties:
+            Path: /dsb
+            Method: any
+        dsb:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /dsb/{proxy+}
+            Method: GET
+
+  dsblibs:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: dsbpythonlib
+      Description: Dependencies for the dsb sample app.
+      ContentUri: package/
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
