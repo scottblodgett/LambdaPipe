@@ -21,6 +21,12 @@ Resources:
       Properties:
         Path: /dsb/{proxy+}
         Method: GET
+  libs:
+   Type: AWS::Serverless::LayerVersion
+   Properties:
+    LayerName: blank-python-lib
+    Description: Dependencies for the blank-python sample app.
+    ContentUri: package/.
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

@@ -7,6 +7,7 @@ phases:
   commands:
    - pip install requests==2.23.0 -t ./
    - pip install validators -t ./     
+   - pip install aws-xray-sdk -t ./
    - sam build
    - export BUCKET=dsb-test-pipeline-output-bucket
    - sam package --s3-bucket $BUCKET --output-template-file outputtemplate.yml
