@@ -27,8 +27,8 @@ Resources:
     LayerName: dsb-python-lib
     Description: Dependencies for the dsb sample app.
     ContentUri: package/.
-      CompatibleRuntimes:
-        - python3.7
+    CompatibleRuntimes:
+      - python3.7
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
