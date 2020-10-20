@@ -11,7 +11,7 @@ Resources:
    FunctionName: URL
    CodeUri: ./src #Directory the source file is
    Layers:
-    - !Ref dsb_libs
+    - !Ref dsblibs
    Events:
     RootEndpoint:
       Type: Api
@@ -23,7 +23,7 @@ Resources:
       Properties:
         Path: /dsb/{proxy+}
         Method: GET
- dsb_libs:
+ dsblibs:
    Type: AWS::Serverless::LayerVersion
    Properties:
     LayerName: dsb-python-lib
