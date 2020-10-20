@@ -6,7 +6,7 @@ Resources:
   Type: AWS::Serverless::Function
   Properties:
    Handler: Index.url_handler
-   Runtime: python3.7
+   Runtime: python3.6
    Role: arn:aws:iam::294402561156:role/dsb_InvokeOtherLambdaRole
    FunctionName: URL
    CodeUri: ./src #Directory the source file is
@@ -30,7 +30,7 @@ Resources:
     Description: Dependencies for the dsb sample app.
     ContentUri: ./package
     CompatibleRuntimes:
-      - python3.7
+      - python3.6
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
