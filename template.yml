@@ -11,6 +11,7 @@ Resources:
       Role: arn:aws:iam::294402561156:role/dsb_InvokeOtherLambdaRole
       FunctionName: URL
       CodeUri: src/
+      Tracing: Active
       Layers:
         - !Ref dsblibs
       Events:
