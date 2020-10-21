@@ -8,6 +8,23 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+bin/
+certifi/
+certifi-2020.6.20.dist-info/
+chardet/
+chardet-3.0.4.dist-info/
+idna/
+idna-2.10.dist-info/
+requests/
+requests-2.24.0.dist-info/
+decorator-4.4.2.dist-info/
+six.py
+decorator.py
+six-1.15.0.dist-info/
+urllib3/
+urllib3-1.25.11.dist-info/
+validators/
+validators-0.18.1.dist-info/
 build/
 develop-eggs/
 dist/

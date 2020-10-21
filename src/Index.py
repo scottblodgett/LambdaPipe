@@ -1,4 +1,4 @@
-AWS = True
+AWS = False
 XRAY = False
 
 import requests
