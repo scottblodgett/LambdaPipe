@@ -2,3 +2,4 @@ requests
 validators
 boto3
 urllib3
+aws-xray-sdk
