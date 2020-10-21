@@ -3,6 +3,7 @@ import requests
 import json
 import re
 import validators
+import boto3
 from urllib.parse import urlparse, parse_qsl
 from aws_xray_sdk.core import xray_recorder
 
@@ -28,16 +29,13 @@ def response(msg, status_code):
         "body": json.dumps(body)
     }
 
-
 def formaturl(url):
     if not re.match('(?:http|ftp|https)://', url):
         return 'http://{}'.format(url)
     return url
 
-
 # Define the client to interact with AWS Lambda
 client = boto3.client('lambda')
-
 
 def url_handler(event, context):
     #print('starting now')

@@ -1,3 +1,4 @@
 requests
 validators
+boto3
 aws-xray-sdk
