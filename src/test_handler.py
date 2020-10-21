@@ -1,9 +1,5 @@
-#python -m pip install requests
-#python -m pip install validators
-
 import unittest
 import Index
-import json
 
 class TestHandlerCase(unittest.TestCase):
 
@@ -13,47 +9,30 @@ class TestHandlerCase(unittest.TestCase):
         url = { "url": "https://matrix.ntreis.net/Matrix/Public/Portal.aspx?p=DE-293744888-482&k=1676089Xb4DX&eml=c2Vhbi5yYXlAdXJiYW5sZWFzaW5nLmNvbQ==" }
         qs = { "queryStringParameters" : url }
         result = Index.url_handler(qs, None)
-        #result = json.loads(index.url_handler(event, None))
-        #print(result["statusCode"])
-        #result = json.dumps(result)
-        #print(json.dumps(result))
         self.assertEqual(result['statusCode'], 200)
         self.assertEqual(result['headers']['Content-Type'], 'application/json')
         
         url = { "url": "https://click.convertkit-mail4.com/xmud9q4qrws6hkm6q7cg/e0hph7hnxx2g60c8/aHR0cHM6Ly9mcy5ibG9nLzIwMjAvMTAvd2h5LXJlYWQv" }
         qs = { "queryStringParameters" : url }
         result = Index.url_handler(qs, None)
-        #print(result)
         self.assertEqual(result['statusCode'], 200)
         self.assertEqual(result['headers']['Content-Type'], 'application/json')
 
         url = { "url": "https://click.mlsend.com/link/c/YT0xNTI5MjIwMjA4NTA4NTQwNDQ3JmM9azFqNyZlPTE5MjgmYj00MjgwMzE1ODAmZD1oNnMzcjNx.uV-jk5YH6UIg-x6bcetpj_Kp5u0vn38QNBHbZns5PLQ" }
         qs = { "queryStringParameters" : url }
         result = Index.url_handler(qs, None)
-        #result = json.loads(index.url_handler(event, None))
-        #print(result["statusCode"])
-        #result = json.dumps(result)
-        #print(json.dumps(result))
-
-
-
-
         self.assertEqual(result['statusCode'], 200)
         self.assertEqual(result['headers']['Content-Type'], 'application/json')
-
-
 
         url = { "url": "www.yahoo.com" }
         qs = { "queryStringParameters" : url }
         result = Index.url_handler(qs, None)
-        #print(result)
         self.assertEqual(result['statusCode'], 200)
         self.assertEqual(result['headers']['Content-Type'], 'application/json')
         
         url = { "url": None }
         qs = { "queryStringParameters" : url }
         result = Index.url_handler(qs, None)
-        #print(result)
         self.assertEqual(result['statusCode'], 400)
         self.assertEqual(result['headers']['Content-Type'], 'application/json')
       

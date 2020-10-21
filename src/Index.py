@@ -1,17 +1,21 @@
-# pip install requests -t ./
+AWS = True
+XRAY = False
+
 import requests
 import json
 import re
 import validators
 import boto3
+import urllib3
 from urllib.parse import urlparse, parse_qsl
-from aws_xray_sdk.core import xray_recorder
 
-@xray_recorder.capture('## create_response')
+if XRAY:
+    from aws_xray_sdk.core import xray_recorder
+
+#@xray_recorder.capture('## create_response')
 def response(msg, status_code):
 
-    print(msg)
-
+    #print(msg)
     url = urlparse(msg["message"])
 
     headers = {}
@@ -38,6 +42,7 @@ def formaturl(url):
 client = boto3.client('lambda')
 
 def url_handler(event, context):
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     #print('starting now')
 
     try:
@@ -48,7 +53,6 @@ def url_handler(event, context):
         #url1 = event["queryStringParameters"]["url1"]
 
         qs = event.get('queryStringParameters', None)
-        #url = "https://click.mlsend.com/link/c/YT0xNTI5MjIwMjA4NTA4NTQwNDQ3JmM9azFqNyZlPTE5MjgmYj00MjgwMzE1ODAmZD1oNnMzcjNx.uV-jk5YH6UIg-x6bcetpj_Kp5u0vn38QNBHbZns5PLQ"
         if qs is not None and (qs.get('url', None) is not None):
             url = event["queryStringParameters"]["url"]
         else:
@@ -68,29 +72,33 @@ def url_handler(event, context):
         if (r.headers.get('Location', None) is None):
             output = url
         else:
-            # print('there')
             output = (r.headers['Location'])  # not guaranteed to have Location
 
         output = response({'message':  output}, 200)
 
-        subsegment = xray_recorder.begin_subsegment('SNS')
+        if XRAY:
+            subsegment = xray_recorder.begin_subsegment('SNS')
+
         # Define the input parameters that will be passed
         # on to the child function
-        inputParams = {
-            "topic": "arn:aws:sns:us-east-2:294402561156:snsFromLambda",
-            "subject": "This is the subject of the message.",
-            "message": str(output)
-        }
-        xray_recorder.end_subsegment()
+        if AWS:
+            inputParams = {
+                "topic": "arn:aws:sns:us-east-2:294402561156:snsFromLambda",
+                "subject": "This is the subject of the message.",
+                "message": str(output)
+            }
 
-        child = client.invoke(
-            FunctionName='arn:aws:lambda:us-east-2:294402561156:function:dsbPublishtoSNS',
-            InvocationType='RequestResponse',
-            Payload=json.dumps(inputParams)
-        )
+        if XRAY:
+            xray_recorder.end_subsegment()
 
-        print(json.load(child['Payload']))
-        print('\n')
+        if AWS:
+            child = client.invoke(
+                FunctionName='arn:aws:lambda:us-east-2:294402561156:function:dsbPublishtoSNS',
+                InvocationType='RequestResponse',
+                Payload=json.dumps(inputParams)
+            )
+            #print(json.load(child['Payload']))
+            #print('\n')
 
         return (output)
 
