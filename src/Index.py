@@ -63,7 +63,7 @@ def url_handler(event, context):
         if not validators.url(url):
             return response({'message':  'Bad Url'}, 400)
 
-        r = requests.get(url, allow_redirects=False)
+        r = requests.get(url, allow_redirects=False, verify=False)
 
         if (r.headers.get('Location', None) is None):
             output = url
