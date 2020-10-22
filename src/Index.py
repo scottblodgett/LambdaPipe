@@ -5,9 +5,11 @@ import requests
 import json
 import re
 import validators
-
 import urllib3
 from urllib.parse import urlparse, parse_qsl
+
+if AWS:
+    import boto3
 
 if XRAY:
     import boto3
@@ -40,7 +42,8 @@ def formaturl(url):
     return url
 
 # Define the client to interact with AWS Lambda
-#client = boto3.client('lambda')
+if AWS:
+    client = boto3.client('lambda')
 
 def url_handler(event, context):
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
