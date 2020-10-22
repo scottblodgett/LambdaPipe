@@ -5,9 +5,10 @@ phases:
    python: 3.7
  build: 
   commands:
-#   - pip install --target ./package -r ./src/requirements.txt
+#  - pip install --target ./package -r ./src/requirements.txt
    - pip install requests==2.23.0 -t ./
-   - pip install validators -t ./     
+   - pip install validators -t ./  
+   - pip install urllib3 -t ./
    - sam build
    - export BUCKET=dsb-test-pipeline-output-bucket
    - sam package --s3-bucket $BUCKET --output-template-file outputtemplate.yml

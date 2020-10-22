@@ -5,11 +5,12 @@ import requests
 import json
 import re
 import validators
-#import boto3
-#import urllib3
+
+import urllib3
 from urllib.parse import urlparse, parse_qsl
 
 if XRAY:
+    import boto3
     from aws_xray_sdk.core import xray_recorder
 
 #@xray_recorder.capture('## create_response')
