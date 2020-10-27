@@ -19,15 +19,18 @@ if XRAY:
 def response(msg, status_code):
 
     #print(msg)
-    url = urlparse(msg["message"])
 
     headers = {}
     headers["Content-Type"] = "application/json"
     headers["Access-Control-Allow-Origin"] = "*"
 
-    body = {}
-    body["url"] = url.scheme + "://" + url.netloc + "/" + url.path
-    body["qs"] = dict(parse_qsl(url.query))
+    if (status_code == 200):
+        url = urlparse(msg["message"])
+        body = {}
+        body["url"] = url.scheme + "://" + url.netloc + "/" + url.path
+        body["qs"] = dict(parse_qsl(url.query))
+    else:
+        body = msg
 
     return {
         "statusCode": status_code,
@@ -36,7 +39,7 @@ def response(msg, status_code):
         "body": body
     }
     
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 
 def formaturl(url):
@@ -52,41 +55,27 @@ if AWS:
 @app.route("/")
 def url_handler():
 
-    json_string = """
-   {
-             "queryStringParameters": {
-                     "url": "https://click.mlsend.com/link/c/YT0xNTI5MjIwMjA4NTA4NTQwNDQ3JmM9azFqNyZlPTE5MjgmYj00MjgwMzE1ODAmZD1oNnMzcjNx.uV-jk5YH6UIg-x6bcetpj_Kp5u0vn38QNBHbZns5PLQ"
-                       }
-             }
-   """
-    event = json.loads(json_string)
-
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)    
-    
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)       
 
     #print('starting now')
 
     try:
-        #print("Log stream name:", context.log_stream_name)
-        #print("Log group name:",  context.log_group_name)
-        #print("Request ID:",context.aws_request_id)
-        #print("Mem. limits(MB):", context.memory_limit_in_mb)
-        #url1 = event["queryStringParameters"]["url1"]
+        # for k, v in request.args.items():
+        # print(f"{k}: {v}")
 
-        qs = event.get('queryStringParameters', None)
-        if qs is not None and (qs.get('url', None) is not None):
-            url = event["queryStringParameters"]["url"]
+        if "url" in request.args:
+            url = request.args["url"]
         else:
-            output = response({'message':  'No URL specified'}, 400)
+            output = response({'message': 'No URL specified'}, 400)
             return (output)
 
         if len(url) > 0:
             url = formaturl(url)
         else:
-            return response({'message':  'No URL specified'}, 400)
+            return response({'message': 'No URL specified'}, 400)
 
         if not validators.url(url):
-            return response({'message':  'Bad Url'}, 400)
+            return response({'message': 'Bad Url'}, 400)
 
         r = requests.get(url, allow_redirects=False, verify=False)
 
