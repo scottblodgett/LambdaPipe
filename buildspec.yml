@@ -1,19 +1,24 @@
 version: 0.2
+
+env:
+  variables:
+    TEMPLATE_FILE: "template.yml"
+    OUTPUT_FILE: "outputtemplate.yml"
+    BUCKET: "dsb-test-pipeline-output-bucket"
+
 phases:
  install:
+  - echo "'install' phase started on $(date)"
   runtime-versions:
    python: 3.7
  build: 
   commands:
-#  - pip install --target ./package -r ./src/requirements.txt
-   - pip install requests==2.23.0 -t ./
-   - pip install validators -t ./  
-   - pip install urllib3 -t ./
+   - pip install --target ./package -r ./src/requirements.txt
    - sam build
-   - export BUCKET=dsb-test-pipeline-output-bucket
-   - sam package --s3-bucket $BUCKET --output-template-file outputtemplate.yml
+   - sam package --s3-bucket ${BUCKET} --output-template-file ${OUTPUT_FILE}
+   
 artifacts:
  type: zip
  files:
-  - template.yml
-  - outputtemplate.yml 
+  - ${TEMPLATE_FILE}
+  - ${OUTPUT_FILE}
