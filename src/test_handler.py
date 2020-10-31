@@ -6,6 +6,13 @@ class TestHandlerCase(unittest.TestCase):
     def test_response(self):
         print("Testing response.")
 
+        url = { "url": "https://reinvent.awsevents.com/?trk=em_a134p000006BlQmAAK&trkCampaign=AWS_reInvent_2020&sc_channel=em&sc_campaign=GLOBAL_STRAT_T1_reinvent_DG1_20201130&sc_medium=em_312010&sc_outcome=Strategic_Events&sc_content=AWS_Event" }
+        qs = { "queryStringParameters" : url }
+        result = Index.url_handler(qs, None)
+        print(result)
+        self.assertEqual(result['statusCode'], 200)
+        self.assertEqual(result['headers']['Content-Type'], 'application/json')
+
         url = { "url": "https://matrix.ntreis.net/Matrix/Public/Portal.aspx?p=DE-293744888-482&k=1676089Xb4DX&eml=c2Vhbi5yYXlAdXJiYW5sZWFzaW5nLmNvbQ==" }
         qs = { "queryStringParameters" : url }
         result = Index.url_handler(qs, None)
