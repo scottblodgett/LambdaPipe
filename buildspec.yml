@@ -4,7 +4,7 @@ env:
   variables:
     TEMPLATE_FILE: "template.yml"
     OUTPUT_FILE: "outputtemplate.yml"
-    BUCKET: "dsb-test-pipeline-output-bucket"
+    BUCKET: "dsblodgett-xfer"
 
 phases:
  install:

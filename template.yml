@@ -8,7 +8,7 @@ Resources:
     Properties:
       Handler: Index.url_handler
       Runtime: python3.7
-      Role: arn:aws:iam::294402561156:role/dsb_InvokeOtherLambdaRole
+      Role: arn:aws:iam::854386642055:role/dsbLambdaRole
       FunctionName: URL
       CodeUri: src/
       #Tracing: Active
