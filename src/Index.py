@@ -1,4 +1,4 @@
-#October 28, 2020
+#November 7
 AWS = True
 XRAY = False
 
@@ -19,7 +19,7 @@ if XRAY:
 #@xray_recorder.capture('## create_response')
 def response(msg, status_code):
 
-    #print(msg)
+    print(msg)
     url = urlparse(msg["message"])
 
     headers = {}
@@ -47,8 +47,8 @@ if AWS:
     client = boto3.client('lambda')
 
 def url_handler(event, context):
+    print('starting now')
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-    #print('starting now')
 
     try:
         #print("Log stream name:", context.log_stream_name)
@@ -84,28 +84,10 @@ def url_handler(event, context):
         if XRAY:
             subsegment = xray_recorder.begin_subsegment('SNS')
 
-        # Define the input parameters that will be passed
-        # on to the child function
-        if AWS:
-            inputParams = {
-                "topic": "arn:aws:sns:us-east-2:294402561156:snsFromLambda",
-                "subject": "This is the subject of the message.",
-                "message": str(output)
-            }
-
         if XRAY:
             xray_recorder.end_subsegment()
-
-        if AWS:
-            child = client.invoke(
-                FunctionName='arn:aws:lambda:us-east-2:294402561156:function:dsbPublishtoSNS',
-                InvocationType='RequestResponse',
-                Payload=json.dumps(inputParams)
-            )
-            #print(json.load(child['Payload']))
-            #print('\n')
 
         return (output)
 
     except Exception as e:
-        return response({'message': e}, 400)
+        return response({'message': 'errror'}, 400)
